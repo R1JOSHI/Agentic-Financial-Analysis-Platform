@@ -1,3 +1,4 @@
+import os
 import json, time, urllib.request, urllib.error, pathlib
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
@@ -209,7 +210,7 @@ class Handler(SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(data).encode())
 
 if __name__ == '__main__':
-    port = 8000
-    print(f'Financial SEC Real Agent running at http://localhost:{port}/index.html')
+    port = int(os.environ.get("PORT", 8000))
+    print(f'Financial SEC Real Agent running on port {port}')
     print('SEC token: no token required. Update User-Agent in app.py with your name/email for production.')
-    ThreadingHTTPServer(('localhost', port), Handler).serve_forever()
+    ThreadingHTTPServer(('0.0.0.0', port), Handler).serve_forever()
